@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Clicker</title>
+  <style>
+    body {
+  	font-family: Courier New, monospace;
+  	font-weight: bold; 
+  	text-align: center;
+  	background: url("background.png") no-repeat center center fixed;
+  	background-size: cover;
+  	padding: 50px;
+	}
+
+
+    h1 {
+      color: #d6336c;
+    }
+
+    #score {
+      font-size: 40px;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    img {
+      width: 200px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    img:active {
+      transform: scale(0.9);
+    }
+
+    .plus {
+      position: absolute;
+      font-size: 24px;
+      color: #ff5596;
+      animation: floatUp 1s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-50px); }
+    }
+  </style>
+</head>
+<body>
+  <br><br><br><br><br><br>
+  <h1>Click The Star!</h1>
+  <div id="score">0</div> 
+  <img id="character" src="char1.png" alt="Karakter" onclick="addScore(event)">
+
+  <script>
+    let score = 0;
+    let currentChar = 1;
+    const totalChar = 3; // jumlah karakter
+    
+    function addScore(event) {
+      score++;
+      document.getElementById("score").innerText = score;
+
+      // mainkan suara
+      const popSound = new Audio("pop.mp3"); 
+      popSound.play();
+
+      currentChar++;
+      if (currentChar > totalChar) {
+        currentChar = 1;
+      }
+      document.getElementById("character").src = "char" + currentChar + ".png";
+
+      // bikin teks +1 muncul
+      let plus = document.createElement("div");
+      plus.className = "plus";
+      plus.innerText = "+1";
+      document.body.appendChild(plus);
+
+      // posisi di sekitar klik
+      plus.style.left = event.pageX + "px";
+      plus.style.top = event.pageY + "px";
+
+      // hapus setelah animasi selesai
+      setTimeout(() => plus.remove(), 1000);
+    }
+  </script>
+</body>
+</html>
